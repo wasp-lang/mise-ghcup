@@ -24,6 +24,7 @@ PLUGIN = { -- luacheck: ignore
     -- Optional: Important notes for users
     notes = {
         "Supports ghc, cabal, hls, and stack",
-        "Needs ghcup already installed in the system",
     },
+
+    depends = { "aqua:haskell/ghcup-hs" },
 }

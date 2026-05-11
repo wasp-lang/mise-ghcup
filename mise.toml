@@ -9,9 +9,8 @@ lua-language-server = "latest"
 pkl = "latest"
 stylua = "latest"
 
-[tools."github:haskell/ghcup-hs"]
+[tools."aqua:haskell/ghcup-hs"]
 version = "latest"
-bin = "ghcup"
 
 [tasks.format]
 description = "Format Lua scripts"
