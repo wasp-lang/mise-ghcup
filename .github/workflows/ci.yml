@@ -30,10 +30,8 @@ jobs:
           - os: ubuntu-24.04-arm
           - os: ubuntu-latest
             image: alpine
-          - os: ubuntu-24.04-arm
-            image: alpine
+            install-step: apk add curl
           - os: windows-latest
-          - os: windows-11-arm
         tool:
           - name: cabal
             command: cabal
@@ -51,6 +49,9 @@ jobs:
       image: ${{ matrix.env.image }}
 
     steps:
+      - if: matrix.env.install-step
+        run: ${{ matrix.env.install-step }}
+
       - uses: actions/checkout@v6
         with:
           path: ./plugin
