@@ -30,7 +30,7 @@ jobs:
           - os: ubuntu-24.04-arm
           - os: ubuntu-latest
             image: alpine
-            install-step: apk add curl
+            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
           - os: windows-latest
         tool:
           - name: cabal
