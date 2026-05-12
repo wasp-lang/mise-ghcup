@@ -25,8 +25,13 @@ jobs:
       matrix:
         os:
           - macos-latest
+          - macos-26-intel
           - ubuntu-latest
+          - ubuntu-24.04-arm
           - windows-latest
+          - windows-11-arm
+        image:
+          - ""
         tool:
           - name: cabal
             command: cabal
@@ -36,6 +41,11 @@ jobs:
             command: haskell-language-server-wrapper
           - name: stack
             command: stack
+        include:
+          - os: ubuntu-latest
+            image: alpine
+          - os: ubuntu-24.04-arm
+            image: alpine
 
     name: Test (${{ matrix.os }}, ${{ matrix.tool.name }})
     runs-on: ${{ matrix.os }}
