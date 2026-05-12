@@ -24,6 +24,8 @@ PLUGIN = { -- luacheck: ignore
     -- Optional: Important notes for users
     notes = {
         "Supports ghc, cabal, hls, and stack",
-        "Needs ghcup already installed in the system",
+        "Requires the ghcup tool",
     },
+
+    depends = { "ghcup" },
 }

@@ -52,13 +52,12 @@ jobs:
           cache: false
           log_level: debug
           mise_toml: |
-            [tools."github:haskell/ghcup-hs"]
-            version = "latest"
-            bin = "ghcup"
+            [tools]
+            "ghcup" = { version = "latest", bin = "ghcup" }
+            "ghcup:${{ matrix.tool.name }}" = "latest"
 
-            [tools."ghcup:${{ matrix.tool.name }}"]
-            version = "latest"
-            depends = "github:haskell/ghcup-hs"
+            [tool_alias]
+            "ghcup" = "github:haskell/ghcup-hs"
 
       - run: mise plugin link --force ghcup ./plugin
       - run: mise install
