@@ -23,10 +23,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
-          - windows-latest
+        env:
+          - os: macos-latest
+          - os: macos-26-intel
+          - os: ubuntu-latest
+          - os: ubuntu-24.04-arm
+          - os: ubuntu-latest
+            image: alpine
+            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
+          - os: windows-latest
         tool:
           - name: cabal
             command: cabal
@@ -37,10 +42,16 @@ jobs:
           - name: stack
             command: stack
 
-    name: Test (${{ matrix.os }}, ${{ matrix.tool.name }})
-    runs-on: ${{ matrix.os }}
+    name: Test (${{ format(matrix.env.image && '{1} on {0}' || '{0}', matrix.env.os, matrix.env.image) }}, ${{ matrix.tool.name }})
+
+    runs-on: ${{ matrix.env.os }}
+    container:
+      image: ${{ matrix.env.image }}
 
     steps:
+      - if: matrix.env.install-step
+        run: ${{ matrix.env.install-step }}
+
       - uses: actions/checkout@v6
         with:
           path: ./plugin
