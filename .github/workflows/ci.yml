@@ -65,13 +65,13 @@ jobs:
           mise_toml: |
             [tools]
             ghcup = "latest"
-            "ghcup:${{ matrix.tool.name }}" = "latest"
+            "mise-ghcup:${{ matrix.tool.name }}" = "latest"
 
             [settings]
             aqua.baked_registry = false
 
-      - run: mise plugin link --force ghcup ./plugin
+      - run: mise plugin link --force mise-ghcup ./plugin
       - run: mise install
-      - run: mise exec ghcup:${{ matrix.tool.name }}@latest -- ${{ matrix.tool.command }} --version
+      - run: mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ matrix.tool.command }} --version
       - run: |
-          mise exec ghcup:${{ matrix.tool.name }}@latest -- ${{ runner.os == 'Windows' && 'where' || 'which' }} ${{ matrix.tool.command }}
+          mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ runner.os == 'Windows' && 'where' || 'which' }} ${{ matrix.tool.command }}
