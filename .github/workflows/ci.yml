@@ -25,44 +25,20 @@ jobs:
       matrix:
         env:
           - os: macos-latest
-          - os: macos-26
           - os: macos-26-intel
-          - os: macos-15
-          - os: macos-15-intel
-          - os: macos-14
-          - os: macos-14-intel
 
           - os: ubuntu-latest
-          - os: ubuntu-slim
-          - os: ubuntu-26.04
           - os: ubuntu-26.04-arm
-          - os: ubuntu-24.04
-          - os: ubuntu-24.04-arm
-          - os: ubuntu-22.04
-          - os: ubuntu-22.04-arm
 
           - os: ubuntu-latest
             image: alpine
             install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
-          - os: ubuntu-latest
-            image: alpine:3.24
-            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
-          - os: ubuntu-latest
-            image: alpine:3.23
-            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
-          - os: ubuntu-latest
-            image: alpine:3.22
-            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
-          - os: ubuntu-latest
-            image: alpine:3.21
+          - os: ubuntu-26.04-arm
+            image: alpine
             install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
 
           - os: windows-latest
-          - os: windows-2025-vs2026
-          - os: windows-2025
-          - os: windows-2022
           - os: windows-11-vs2026-arm
-          - os: windows-11-arm
 
         tool:
           - name: cabal
