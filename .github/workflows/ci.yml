@@ -33,9 +33,6 @@ jobs:
           - os: ubuntu-latest
             image: alpine
             install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
-          - os: ubuntu-26.04-arm
-            image: alpine
-            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
 
           - os: windows-latest
           - os: windows-11-vs2026-arm
