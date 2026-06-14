@@ -64,11 +64,10 @@ jobs:
           log_level: debug
           mise_toml: |
             [tools]
-            "ghcup" = { version = "latest", bin = "ghcup" }
             "ghcup:${{ matrix.tool.name }}" = "latest"
 
-            [tool_alias]
-            "ghcup" = "github:haskell/ghcup-hs"
+            [settings]
+            aqua.baked_registry = false
 
       - run: mise plugin link --force ghcup ./plugin
       - run: mise install
