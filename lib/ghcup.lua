@@ -11,7 +11,7 @@ local is_windows = RUNTIME.osType == "windows"
 --- @return string
 local function install_base_prefix()
     if is_windows then
-        return "C:\\ghcup-tmp"
+        return "C:\\ghcup"
     end
     return RUNTIME.pluginDirPath
 end
@@ -26,7 +26,7 @@ function M.call(args)
     local base_prefix = install_base_prefix()
     fs.mkdir_p(cmd, base_prefix)
 
-    return cmd.exec("ghcup --verbosity 2 " .. args, {
+    return cmd.exec("ghcup " .. args, {
         env = {
             GHCUP_INSTALL_BASE_PREFIX = base_prefix,
             GHCUP_USE_XDG_DIRS = "0",

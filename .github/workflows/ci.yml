@@ -76,18 +76,7 @@ jobs:
             aqua.baked_registry = false
 
       - run: mise plugin link --force mise-ghcup ./plugin
-
       - run: mise install
-        id: install
-        continue-on-error: true
-
-      - if: steps.install.outcome == 'failure' && runner.os == 'Windows'
-        name: Upload logs
-        uses: actions/upload-artifact@v6
-        with:
-          name: mise-install-logs-${{ matrix.env.os }}-${{ matrix.tool.name }}
-          path: C:\Users\runneradmin\AppData\Local\mise\plugins\mise-ghcup\ghcup\logs
-
       - run: mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ matrix.tool.command }} --version
       - run: |
           mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ runner.os == 'Windows' && 'where' || 'which' }} ${{ matrix.tool.command }}
