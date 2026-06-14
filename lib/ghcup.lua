@@ -6,7 +6,7 @@ local M = {}
 function M.call(args)
     local cmd = require("cmd")
 
-    return cmd.exec("ghcup " .. args, {
+    return cmd.exec("ghcup --verbosity 2 " .. args, {
         env = {
             GHCUP_INSTALL_BASE_PREFIX = RUNTIME.pluginDirPath,
             GHCUP_USE_XDG_DIRS = "0",
