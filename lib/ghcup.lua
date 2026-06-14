@@ -29,6 +29,18 @@ function M.assert_installed()
     if not M.is_installed() then
         error("ghcup is not installed")
     end
+
+    local cmd = require("cmd")
+    local log = require("log")
+    local is_windows = RUNTIME.osType == "windows"
+
+    if is_windows then
+        local ghcup_path = cmd.exec("where ghcup")
+        log.debug("ghcup path: " .. ghcup_path)
+    else
+        local ghcup_path = cmd.exec("which ghcup")
+        log.debug("ghcup path: " .. ghcup_path)
+    end
 end
 
 return M
