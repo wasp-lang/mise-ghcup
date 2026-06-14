@@ -64,7 +64,7 @@ jobs:
           log_level: debug
           mise_toml: |
             [tools]
-            ghcup = "latest"
+            "aqua:ghcup" = "latest"
             "mise-ghcup:${{ matrix.tool.name }}" = "latest"
 
             [settings]
