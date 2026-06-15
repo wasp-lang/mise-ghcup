@@ -72,9 +72,6 @@ jobs:
             "aqua:ghcup" = "latest"
             "mise-ghcup:${{ matrix.tool.name }}" = "latest"
 
-            [settings]
-            aqua.baked_registry = false
-
       - run: mise plugin link --force mise-ghcup ./plugin
       - run: mise install
       - run: mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ matrix.tool.command }} --version
