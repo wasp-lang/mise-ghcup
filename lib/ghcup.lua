@@ -2,28 +2,32 @@ local M = {}
 
 local is_windows = RUNTIME.osType == "windows"
 
---- ghcup stages isolated installs under `<base>/ghcup/tmp/...`, re-appending the
---- full destination path beneath it. On Windows that doubled path, combined with
---- GHC's deeply-nested Haddock docs, blows past the 260-char MAX_PATH limit and
---- `CopyFile` fails. Keep the base prefix short on Windows so the staging path
---- stays under the limit. Elsewhere keep it inside the plugin dir to stay
---- self-contained.
+--- Each tool gets its own ghcup home. Separating the base dir allows parallel
+--- installs without race conditions.
+--- On Windows, we use a short base since GHC has deeply-nested files that might
+--- exceed the 260-char MAX_PATH limit. Elsewhere, we keep it inside the plugin
+--- dir to stay self-contained.
+---
+--- @param ghcup_id string The ghcup id of the tool (e.g. "ghc", "cabal")
 --- @return string
-local function install_base_prefix()
+local function install_base_prefix(ghcup_id)
+    local file = require("file")
     if is_windows then
-        return "C:\\ghcup"
+        return "C:\\" .. ghcup_id
+    else
+        return file.join_path(RUNTIME.pluginDirPath, ghcup_id)
     end
-    return RUNTIME.pluginDirPath
 end
 
 --- Locate the local ghcup binary and environment variables.
+--- @param ghcup_id string The ghcup id whose isolated home to use
 --- @param args string
 --- @return string ghcup_bin, table ghcup_env
-function M.call(args)
+function M.call(ghcup_id, args)
     local cmd = require("cmd")
     local fs = require("fs")
 
-    local base_prefix = install_base_prefix()
+    local base_prefix = install_base_prefix(ghcup_id)
     fs.mkdir_p(cmd, base_prefix)
 
     return cmd.exec("ghcup " .. args, {
@@ -35,18 +39,20 @@ function M.call(args)
 end
 
 --- Checks if ghcup is installed by trying to call it with `--version`.
+--- @param ghcup_id string The ghcup id whose isolated home to use
 --- @return boolean
-function M.is_installed()
+function M.is_installed(ghcup_id)
     local success, _ = pcall(function()
-        return M.call("--version")
+        return M.call(ghcup_id, "--version")
     end)
 
     return success
 end
 
 --- Asserts that ghcup is installed by trying to call it with `--version`.
-function M.assert_installed()
-    if not M.is_installed() then
+--- @param ghcup_id string The ghcup id whose isolated home to use
+function M.assert_installed(ghcup_id)
+    if not M.is_installed(ghcup_id) then
         error("ghcup is not installed")
     end
 
