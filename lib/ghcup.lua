@@ -33,7 +33,6 @@ function M.call(ghcup_id, args)
     return cmd.exec("ghcup " .. args, {
         env = {
             GHCUP_INSTALL_BASE_PREFIX = base_prefix,
-            GHCUP_USE_XDG_DIRS = "0",
         },
     })
 end
