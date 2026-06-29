@@ -12,7 +12,7 @@ It lets you manage these tools with mise, pinned per project and reproducible ac
 ## Prerequisites
 
 - mise `2026.6.10` or newer
-- The `aqua:ghcup` tool, which provides the `ghcup` binary that this plugin drives. Add it to your `mise.toml` as shown below so mise installs it for you.
+- The `ghcup` tool, which provides the `ghcup` binary that this plugin drives. Add it to your `mise.toml` as shown below so mise installs it for you.
 
 ## Usage
 
@@ -24,7 +24,7 @@ min_version = "2026.6.10"
 
 [tools]
 # Set your preferred versions here:
-"aqua:ghcup" = "latest"
+"ghcup" = "latest"
 "mise-ghcup:ghc" = "latest"
 "mise-ghcup:hls" = "latest"
 "mise-ghcup:stack" = "latest"
