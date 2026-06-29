@@ -66,6 +66,28 @@ Pin a specific version in `mise.toml` instead of `latest`:
 "mise-ghcup:ghc" = "9.10.1"
 ```
 
+## Release channels
+
+By default the plugin only sees GHCup's standard releases. To make extra
+[GHCup release channels](https://www.haskell.org/ghcup/guide/#metadata) available
+for a tool, set the `channels` option. Each entry is a built-in channel name
+(`prereleases`, `vanilla`, or `cross`) or a custom metadata URL, and is merged on
+top of the default channel:
+
+```toml
+[tools]
+# Make prerelease GHCs show up in `ls-remote` and be installable
+"mise-ghcup:ghc" = { version = "latest", channels = ["prereleases"] }
+```
+
+```bash
+mise ls-remote mise-ghcup:ghc   # now includes prerelease versions
+```
+
+A single channel can also be given as a plain string (`channels = "prereleases"`).
+The channels apply only to the tool they are set on, and don't affect your global
+GHCup configuration.
+
 ## License
 
 MIT
