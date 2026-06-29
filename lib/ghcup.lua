@@ -33,11 +33,6 @@ function M.call(ghcup_id, args)
     return cmd.exec("ghcup " .. args, {
         env = {
             GHCUP_INSTALL_BASE_PREFIX = base_prefix,
-            -- Leave GHCUP_USE_XDG_DIRS unset on purpose: ghcup enables XDG-style
-            -- directories when this is set to *any* value (including "0"), which
-            -- would move ghcup's config/cache/db into the user's global
-            -- ~/.config and ~/.local/share instead of this tool's isolated base
-            -- prefix, defeating the per-tool isolation above.
         },
     })
 end
