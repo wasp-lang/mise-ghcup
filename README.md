@@ -50,7 +50,6 @@ You can now use the tools, with mise managing the versions:
 
 ```bash
 ghc --version
-cabal --version
 ```
 
 ## Choosing versions
