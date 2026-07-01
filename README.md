@@ -6,13 +6,17 @@ It lets you manage these tools with mise, pinned per project and reproducible ac
 
 - `mise-ghcup:ghc` – the Glasgow Haskell Compiler
 - `mise-ghcup:hls` – the Haskell Language Server
-- `mise-ghcup:stack` – the Stack build tool
-- `mise-ghcup:cabal` – the Cabal build tool
+
+> [!NOTE]
+>
+> These tools are also available, but we don't recommend to install them through GHCup, since they are installable through the Aqua backend, which provides better performance and supply chain safety:
+> - `mise-ghcup:stack` – the Stack build tool (just use the `stack` tool instead, will pull from Aqua) 
+> - `mise-ghcup:cabal` – the Cabal build tool (just use the `cabal` tool instead, will pull from Aqua)
 
 ## Prerequisites
 
 - mise `2026.6.10` or newer
-- The `aqua:ghcup` tool, which provides the `ghcup` binary that this plugin drives. Add it to your `mise.toml` as shown below so mise installs it for you.
+- An installed [GHCup](https://www.haskell.org/ghcup/). You can manage it through Mise too, with the `ghcup` tool, by adding it to your `mise.toml` as shown below.
 
 ## Usage
 
@@ -20,15 +24,13 @@ Add the plugin and the tools to your project's `mise.toml`:
 
 ```toml title="mise.toml"
 # Minimum required mise version for this plugin.
-min_version = "2026.6.10"
+min_version = "2026.6.16"
 
 [tools]
 # Set your preferred versions here:
-"aqua:ghcup" = "latest"
+"ghcup" = "latest"
 "mise-ghcup:ghc" = "latest"
 "mise-ghcup:hls" = "latest"
-"mise-ghcup:stack" = "latest"
-"mise-ghcup:cabal" = "latest"
 
 [plugins]
 "vfox:mise-ghcup" = "https://github.com/cprecioso/mise-ghcup.git"
