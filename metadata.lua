@@ -20,5 +20,5 @@ PLUGIN = { -- luacheck: ignore
         "Requires the ghcup tool",
     },
 
-    depends = { "aqua:ghcup" },
+    depends = { "ghcup", "aqua:ghcup" },
 }
