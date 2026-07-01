@@ -21,9 +21,5 @@ run = "hk check"
 description = "Fix linting issues"
 run = "hk fix"
 
-[tasks.ci]
-description = "Run all CI checks"
-depends = ["lint", "test"]
-
 [settings]
 experimental = true
