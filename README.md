@@ -15,7 +15,7 @@ It lets you manage these tools with mise, pinned per project and reproducible ac
 
 ## Prerequisites
 
-- mise `2026.6.10` or newer
+- mise `2026.6.16` or newer
 - An installed [GHCup](https://www.haskell.org/ghcup/). You can manage it through Mise too, with the `ghcup` tool, by adding it to your `mise.toml` as shown below.
 
 ## Usage
