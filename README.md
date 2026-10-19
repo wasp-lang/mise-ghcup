@@ -20,7 +20,7 @@ It lets you manage these tools with mise, pinned per project and reproducible ac
 
 ## Usage
 
-Add the plugin and the tools to your project's `mise.toml`:
+Add the tools to your project's `mise.toml`:
 
 ```toml title="mise.toml"
 # Minimum required mise version for this plugin.
@@ -32,18 +32,21 @@ min_version = "2026.8.8"
 "mise-ghcup:ghc" = "latest"
 "mise-ghcup:hls" = "latest"
 
-[plugins]
-# Pin the plugin to a release tag so every machine runs the same plugin code.
-# x-release-please-start-version
-"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v1.0.0"
-# x-release-please-end
-
 [settings]
 # Backend plugins are experimental, so we need to enable them here.
 experimental = true
 ```
 
-The example always points at the latest release. See the [releases page](https://github.com/wasp-lang/mise-ghcup/releases) for what changed in each one.
+Below that, register the plugin, pinned to a release tag so every machine runs the same plugin code:
+
+<!-- x-release-please-start-version -->
+```toml title="mise.toml"
+[plugins]
+"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v1.0.0"
+```
+<!-- x-release-please-end -->
+
+This always points at the latest release. See the [releases page](https://github.com/wasp-lang/mise-ghcup/releases) for what changed in each one.
 
 Then install everything:
 
