@@ -5,7 +5,7 @@
 PLUGIN = { -- luacheck: ignore
     name = "mise-ghcup",
 
-    version = "1.0.0",
+    version = "1.0.0", -- x-release-please-version
 
     description = "A mise backend plugin for Haskell tools via ghcup",
 

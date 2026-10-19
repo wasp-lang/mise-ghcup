@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "bump-minor-pre-major": true,
+  "bootstrap-sha": "d97036b40e1399c6496f4cce659ae007b14afc27",
+  "packages": {
+    ".": {
+      "extra-files": ["metadata.lua"]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+name: Continuous Deployment
+
+concurrency:
+  group: "release"
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: googleapis/release-please-action@v5
