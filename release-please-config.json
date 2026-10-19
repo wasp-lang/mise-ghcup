@@ -5,7 +5,7 @@
   "bootstrap-sha": "d97036b40e1399c6496f4cce659ae007b14afc27",
   "packages": {
     ".": {
-      "extra-files": ["metadata.lua"]
+      "extra-files": ["metadata.lua", "README.md"]
     }
   }
 }
