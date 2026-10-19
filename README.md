@@ -15,16 +15,16 @@ It lets you manage these tools with mise, pinned per project and reproducible ac
 
 ## Prerequisites
 
-- mise `2026.7.3` or newer
+- mise `2026.8.8` or newer
 - An installed [GHCup](https://www.haskell.org/ghcup/). You can manage it through Mise too, with the `ghcup` tool, by adding it to your `mise.toml` as shown below.
 
 ## Usage
 
-Add the plugin and the tools to your project's `mise.toml`:
+Add the tools to your project's `mise.toml`:
 
 ```toml title="mise.toml"
 # Minimum required mise version for this plugin.
-min_version = "2026.7.3"
+min_version = "2026.8.8"
 
 [tools]
 # Set your preferred versions here:
@@ -32,13 +32,21 @@ min_version = "2026.7.3"
 "mise-ghcup:ghc" = "latest"
 "mise-ghcup:hls" = "latest"
 
-[plugins]
-"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git"
-
 [settings]
 # Backend plugins are experimental, so we need to enable them here.
 experimental = true
 ```
+
+Below that, register the plugin, pinned to a release tag so every machine runs the same plugin code:
+
+<!-- x-release-please-start-version -->
+```toml title="mise.toml"
+[plugins]
+"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v1.0.0"
+```
+<!-- x-release-please-end -->
+
+This always points at the latest release. See the [releases page](https://github.com/wasp-lang/mise-ghcup/releases) for what changed in each one.
 
 Then install everything:
 
@@ -88,6 +96,16 @@ A channel replaces the default one, so the example above only lists prereleases.
 [tools]
 "mise-ghcup:ghc" = { version = "latest", channel = ["default", "prereleases"] }
 ```
+
+## Upgrading the plugin
+
+Change the tag in `mise.toml`, then update the installed plugin to the same tag. mise doesn't re-read the tag once the plugin is installed, so editing `mise.toml` alone has no effect. For example, to move to the latest release:
+
+<!-- x-release-please-start-version -->
+```bash
+mise plugins update mise-ghcup#v1.0.0
+```
+<!-- x-release-please-end -->
 
 ## License
 
