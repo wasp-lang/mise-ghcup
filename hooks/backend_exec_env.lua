@@ -15,20 +15,19 @@ function PLUGIN:BackendExecEnv(ctx)
     }
 
     local binary_name = tool_data.binary_name
-    local bin_path
     for _, path in ipairs(bin_search_paths) do
         if
             file.exists(file.join_path(path, binary_name))
             or file.exists(file.join_path(path, binary_name .. ".exe"))
         then
-            bin_path = path
-            break
+            return {
+                env_vars = {
+                    { key = "PATH", value = path },
+                },
+            }
         end
     end
 
-    return {
-        env_vars = {
-            { key = "PATH", value = bin_path },
-        },
-    }
+    -- Binary not found: return no PATH entry, so mise falls back to `install_path/bin`
+    return { env_vars = {} }
 end
