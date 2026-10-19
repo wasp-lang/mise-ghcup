@@ -1,0 +1,5 @@
+paths:
+  .github/workflows/**/*.{yml,yaml}:
+    ignore:
+      # actionlint doesn't support the `$/` self-reference syntax for reusable workflows yet
+      - 'reusable workflow call "\$/.+" at "uses" is not following the format'
