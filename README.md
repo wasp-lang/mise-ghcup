@@ -33,12 +33,15 @@ min_version = "2026.8.8"
 "mise-ghcup:hls" = "latest"
 
 [plugins]
-"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git"
+# Pin the plugin to a release tag so every machine runs the same plugin code.
+"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v1.0.0"
 
 [settings]
 # Backend plugins are experimental, so we need to enable them here.
 experimental = true
 ```
+
+Replace `v1.0.0` with the latest tag from the [releases page](https://github.com/wasp-lang/mise-ghcup/releases).
 
 Then install everything:
 
@@ -87,6 +90,14 @@ A channel replaces the default one, so the example above only lists prereleases.
 ```toml
 [tools]
 "mise-ghcup:ghc" = { version = "latest", channel = ["default", "prereleases"] }
+```
+
+## Upgrading the plugin
+
+Change the tag in `mise.toml`, then update the installed plugin to the same tag. mise doesn't re-read the tag once the plugin is installed, so editing `mise.toml` alone has no effect:
+
+```bash
+mise plugins update mise-ghcup#v1.1.0
 ```
 
 ## License
