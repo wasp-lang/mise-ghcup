@@ -69,8 +69,6 @@ jobs:
           cache: false
           log_level: debug
           mise_toml: |
-            min_version = "2026.8.8"
-
             [tools]
             "ghcup" = "latest"
             "mise-ghcup:${{ matrix.tool.name }}" = "latest"
