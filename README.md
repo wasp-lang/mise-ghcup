@@ -67,6 +67,22 @@ Pin a specific version in `mise.toml` instead of `latest`:
 "mise-ghcup:ghc" = "9.10.1"
 ```
 
+## Choosing a channel
+
+By default, versions come from GHCup's default release channel. Set the `channel` option to use a different one. It accepts anything GHCup's `--url-source` does: a predefined channel name (`prereleases`, `cross`, `vanilla`, `default`), a metadata URL, or a file path.
+
+```toml
+[tools]
+"mise-ghcup:ghc" = { version = "latest", channel = "prereleases" }
+```
+
+A channel replaces the default one, so the example above only lists prereleases. Pass a list to combine channels:
+
+```toml
+[tools]
+"mise-ghcup:ghc" = { version = "latest", channel = ["default", "prereleases"] }
+```
+
 ## License
 
 MIT

@@ -19,18 +19,40 @@ local function install_base_prefix(ghcup_id)
     end
 end
 
+--- Builds the `--url-source` flag for a release channel, if set.
+--- A channel is anything ghcup accepts as a url source: a predefined channel
+--- name (e.g. "prereleases"), a metadata URL, or a file path. A list of them
+--- combines their versions, e.g. { "default", "prereleases" }.
+---
+--- @param channel string|string[]|nil
+--- @return string
+local function url_source_flag(channel)
+    if channel == nil then
+        return ""
+    end
+
+    if type(channel) == "table" then
+        channel = "[" .. table.concat(channel, ",") .. "]"
+    elseif type(channel) ~= "string" then
+        error("The 'channel' option must be a string or a list of strings")
+    end
+
+    return '--url-source "' .. channel .. '" '
+end
+
 --- Locate the local ghcup binary and environment variables.
 --- @param ghcup_id string The ghcup id whose isolated home to use
 --- @param args string
+--- @param channel string|string[]|nil Release channel(s) to use instead of the default
 --- @return string
-function M.call(ghcup_id, args)
+function M.call(ghcup_id, args, channel)
     local cmd = require("cmd")
     local fs = require("fs")
 
     local base_prefix = install_base_prefix(ghcup_id)
     fs.mkdir_p(cmd, base_prefix)
 
-    return cmd.exec("ghcup " .. args, {
+    return cmd.exec("ghcup " .. url_source_flag(channel) .. args, {
         env = {
             GHCUP_INSTALL_BASE_PREFIX = base_prefix,
         },
