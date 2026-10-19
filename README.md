@@ -54,6 +54,12 @@ ghc --version
 
 ## Choosing versions
 
+List the tools this plugin provides (they also show up in shell completion and the `mise use` picker):
+
+```bash
+mise search mise-ghcup:
+```
+
 List the versions GHCup offers for any tool:
 
 ```bash
