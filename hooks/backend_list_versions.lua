@@ -19,7 +19,9 @@ function PLUGIN:BackendListVersions(ctx)
     local versions = {}
     for _, line in ipairs(strings.split(output, "\n")) do
         line = strings.trim_space(line)
-        if line ~= "" then
+        -- Skip versions ghcup has no binary distribution of for this platform,
+        -- since they would fail to install
+        if line ~= "" and not (" " .. line .. " "):find("%sno%-bindist%s") then
             -- ghcup list output has version as the 2nd whitespace-delimited field
             local version = line:match("^%S+%s+(%S+)")
             if version then
