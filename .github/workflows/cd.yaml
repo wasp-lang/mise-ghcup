@@ -16,8 +16,6 @@ jobs:
     secrets: inherit
 
   release-please:
-    needs: ci
-
     runs-on: ubuntu-latest
 
     permissions:
