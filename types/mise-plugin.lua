@@ -126,7 +126,7 @@ ARCH_TYPE = ""
 ---@field options BackendOptions Tool options from mise.toml
 
 ---@class BackendExecEnvResult
----@field env_vars EnvKey[] Environment variables to set
+---@field env_vars EnvKey[] Environment variables to set (no PATH entry means mise adds `install_path/bin`)
 
 ---@class BackendListToolsCtx
 
