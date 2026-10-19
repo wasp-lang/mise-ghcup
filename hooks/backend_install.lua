@@ -7,6 +7,7 @@ function PLUGIN:BackendInstall(ctx)
     local fs = require("fs")
     local ghcup = require("ghcup")
     local log = require("log")
+    local shell = require("shell")
     local tools = require("tools")
 
     local tool = ctx.tool
@@ -22,8 +23,14 @@ function PLUGIN:BackendInstall(ctx)
     fs.mkdir_p(cmd, install_path)
     ghcup.call(
         tool_data.ghcup_id,
-        "install " .. tool_data.ghcup_id .. " " .. version .. " -i " .. install_path,
-        ctx.options.channel
+        "install "
+            .. tool_data.ghcup_id
+            .. " "
+            .. shell.var("MISE_GHCUP_VERSION")
+            .. " -i "
+            .. shell.var("MISE_GHCUP_INSTALL_PATH"),
+        ctx.options.channel,
+        { MISE_GHCUP_VERSION = version, MISE_GHCUP_INSTALL_PATH = install_path }
     )
 
     return {}

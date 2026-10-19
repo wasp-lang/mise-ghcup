@@ -7,12 +7,13 @@ local is_windows = RUNTIME.osType == "windows"
 --- @param path string
 function M.mkdir_p(cmd, path)
     local file = require("file")
+    local shell = require("shell")
     if is_windows then
         if not file.exists(path) then
-            cmd.exec("mkdir " .. path)
+            cmd.exec("mkdir " .. shell.var("DIR"), { env = { DIR = path } })
         end
     else
-        cmd.exec("mkdir -p " .. path)
+        cmd.exec("mkdir -p " .. shell.var("DIR"), { env = { DIR = path } })
     end
 end
 
