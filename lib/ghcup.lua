@@ -25,10 +25,13 @@ end
 --- combines their versions, e.g. { "default", "prereleases" }.
 ---
 --- @param channel string|string[]|nil
---- @return string
+--- @return string flag The flag, referencing `MISE_GHCUP_URL_SOURCE`
+--- @return string? url_source The value for `MISE_GHCUP_URL_SOURCE`
 local function url_source_flag(channel)
+    local shell = require("shell")
+
     if channel == nil then
-        return ""
+        return "", nil
     end
 
     if type(channel) == "table" then
@@ -37,26 +40,33 @@ local function url_source_flag(channel)
         error("The 'channel' option must be a string or a list of strings")
     end
 
-    return '--url-source "' .. channel .. '" '
+    return "--url-source " .. shell.var("MISE_GHCUP_URL_SOURCE") .. " ", channel
 end
 
 --- Locate the local ghcup binary and environment variables.
 --- @param ghcup_id string The ghcup id whose isolated home to use
---- @param args string
+--- @param args string Arguments, which can reference `env` entries through `shell.var`
 --- @param channel string|string[]|nil Release channel(s) to use instead of the default
+--- @param env? table<string, string> Extra environment variables for the command
 --- @return string
-function M.call(ghcup_id, args, channel)
+function M.call(ghcup_id, args, channel, env)
     local cmd = require("cmd")
     local fs = require("fs")
 
     local base_prefix = install_base_prefix(ghcup_id)
     fs.mkdir_p(cmd, base_prefix)
 
-    return cmd.exec("ghcup " .. url_source_flag(channel) .. args, {
-        env = {
-            GHCUP_INSTALL_BASE_PREFIX = base_prefix,
-        },
-    })
+    local flag, url_source = url_source_flag(channel)
+
+    local cmd_env = {
+        GHCUP_INSTALL_BASE_PREFIX = base_prefix,
+        MISE_GHCUP_URL_SOURCE = url_source,
+    }
+    for key, value in pairs(env or {}) do
+        cmd_env[key] = value
+    end
+
+    return cmd.exec("ghcup " .. flag .. args, { env = cmd_env })
 end
 
 --- Checks if ghcup is installed by trying to call it with `--version`.
