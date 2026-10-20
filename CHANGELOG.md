@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/wasp-lang/mise-ghcup/compare/v1.1.0...v1.1.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* detect no-bindist anywhere in ghcup list notes ([#30](https://github.com/wasp-lang/mise-ghcup/issues/30)) ([c225ac2](https://github.com/wasp-lang/mise-ghcup/commit/c225ac2bcf1089a02680455f2b65f6b0b7b96ce5))
+
 ## [1.1.0](https://github.com/wasp-lang/mise-ghcup/compare/v1.0.0...v1.1.0) (2026-10-19)
 
 

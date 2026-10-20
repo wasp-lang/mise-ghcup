@@ -42,7 +42,7 @@ Below that, register the plugin, pinned to a release tag so every machine runs t
 <!-- x-release-please-start-version -->
 ```toml title="mise.toml"
 [plugins]
-"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v1.0.0"
+"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v1.1.1"
 ```
 <!-- x-release-please-end -->
 
@@ -103,7 +103,7 @@ Change the tag in `mise.toml`, then update the installed plugin to the same tag.
 
 <!-- x-release-please-start-version -->
 ```bash
-mise plugins update mise-ghcup#v1.0.0
+mise plugins update mise-ghcup#v1.1.1
 ```
 <!-- x-release-please-end -->
 
