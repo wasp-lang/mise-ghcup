@@ -18,15 +18,11 @@ function PLUGIN:BackendListVersions(ctx)
 
     local versions = {}
     for _, line in ipairs(strings.split(output, "\n")) do
-        line = strings.trim_space(line)
+        local entry = ghcup.parse_list_line(line)
         -- Skip versions ghcup has no binary distribution of for this platform,
         -- since they would fail to install
-        if line ~= "" and not (" " .. line .. " "):find("%sno%-bindist%s") then
-            -- ghcup list output has version as the 2nd whitespace-delimited field
-            local version = line:match("^%S+%s+(%S+)")
-            if version then
-                table.insert(versions, version)
-            end
+        if entry and not entry.no_bindist then
+            table.insert(versions, entry.version)
         end
     end
 
