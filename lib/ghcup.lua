@@ -101,6 +101,7 @@ end
 
 --- @class GhcupListEntry
 --- @field version string
+--- @field release_date string? As YYYY-MM-DD, when ghcup knows it
 --- @field no_bindist boolean Whether there's no binary for the current platform
 
 --- Parses a line of `ghcup list -r` output.
@@ -119,6 +120,8 @@ function M.parse_list_line(line)
     for token in rest:gmatch("[^%s,]+") do
         if token == "no-bindist" then
             entry.no_bindist = true
+        elseif token:match("^%d%d%d%d%-%d%d%-%d%d$") then
+            entry.release_date = token
         end
     end
 

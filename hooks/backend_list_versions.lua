@@ -17,12 +17,17 @@ function PLUGIN:BackendListVersions(ctx)
     local output = ghcup.call(tool_data.ghcup_id, "list -t " .. tool_data.ghcup_id .. " -r", ctx.options.channel)
 
     local versions = {}
+    local release_dates = {}
     for _, line in ipairs(strings.split(output, "\n")) do
         local entry = ghcup.parse_list_line(line)
         -- Skip versions ghcup has no binary distribution of for this platform,
         -- since they would fail to install
         if entry and not entry.no_bindist then
             table.insert(versions, entry.version)
+            -- Older versions have no known release date, so they're reported without one
+            if entry.release_date then
+                release_dates[entry.version] = entry.release_date .. "T00:00:00Z"
+            end
         end
     end
 
@@ -35,5 +40,17 @@ function PLUGIN:BackendListVersions(ctx)
     -- versions and mis-orders the 1-to-4-component (PVP) versions these tools use.
     versions = version.sort(versions)
 
-    return { versions = versions }
+    -- Report release dates so mise can apply minimum_release_age and
+    -- `ls-remote --before` to them. Undated versions stay plain strings.
+    local result = {}
+    for i, v in ipairs(versions) do
+        local created_at = release_dates[v]
+        if created_at then
+            result[i] = { version = v, created_at = created_at }
+        else
+            result[i] = v
+        end
+    end
+
+    return { versions = result }
 end
