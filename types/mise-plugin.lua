@@ -108,7 +108,11 @@ ARCH_TYPE = ""
 ---@field options BackendOptions Tool options from mise.toml
 
 ---@class BackendListVersionsResult
----@field versions string[] List of available versions, ascending (mise does not re-sort)
+---@field versions (string|BackendListVersionsEntry)[] List of available versions, ascending (mise does not re-sort)
+
+---@class BackendListVersionsEntry
+---@field version string Version string
+---@field created_at? string Release date (RFC 3339), used for minimum_release_age and `ls-remote --before`
 
 ---@class BackendInstallCtx
 ---@field tool string Tool name
