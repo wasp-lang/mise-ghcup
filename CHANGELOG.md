@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/wasp-lang/mise-ghcup/compare/v1.1.1...v2.0.0) (2026-10-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires mise 2026.10.15 or newer
+
+### Features
+
+* report version release dates for minimum_release_age ([#28](https://github.com/wasp-lang/mise-ghcup/issues/28)) ([33cb62e](https://github.com/wasp-lang/mise-ghcup/commit/33cb62eeeaa93ec76fe1fcb319415a92bbee6aa1))
+
 ## [1.1.1](https://github.com/wasp-lang/mise-ghcup/compare/v1.1.0...v1.1.1) (2026-10-20)
 
 
