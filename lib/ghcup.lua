@@ -99,4 +99,33 @@ function M.assert_installed(ghcup_id)
     end
 end
 
+--- @class GhcupListEntry
+--- @field version string
+--- @field release_date string? As YYYY-MM-DD, when ghcup knows it
+--- @field no_bindist boolean Whether there's no binary for the current platform
+
+--- Parses a line of `ghcup list -r` output.
+--- Each line is `tool version tags notes`, space-separated, where tags and notes
+--- are comma-separated lists that may be empty. The notes (release date,
+--- `no-bindist`, ...) have no fixed position, so we look at every token.
+--- @param line string
+--- @return GhcupListEntry? entry `nil` if the line has no version
+function M.parse_list_line(line)
+    local version, rest = line:match("^%s*%S+%s+(%S+)(.*)$")
+    if not version then
+        return nil
+    end
+
+    local entry = { version = version, no_bindist = false }
+    for token in rest:gmatch("[^%s,]+") do
+        if token == "no-bindist" then
+            entry.no_bindist = true
+        elseif token:match("^%d%d%d%d%-%d%d%-%d%d$") then
+            entry.release_date = token
+        end
+    end
+
+    return entry
+end
+
 return M

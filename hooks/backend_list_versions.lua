@@ -19,20 +19,14 @@ function PLUGIN:BackendListVersions(ctx)
     local versions = {}
     local release_dates = {}
     for _, line in ipairs(strings.split(output, "\n")) do
-        line = strings.trim_space(line)
+        local entry = ghcup.parse_list_line(line)
         -- Skip versions ghcup has no binary distribution of for this platform,
         -- since they would fail to install
-        if line ~= "" and not (" " .. line .. " "):find("%sno%-bindist%s") then
-            -- ghcup list output has version as the 2nd whitespace-delimited field
-            local version = line:match("^%S+%s+(%S+)")
-            if version then
-                table.insert(versions, version)
-                -- When ghcup knows the release date, it's the last field, as YYYY-MM-DD.
-                -- Older versions have none, so they're reported without one.
-                local date = line:match("%s(%d%d%d%d%-%d%d%-%d%d)$")
-                if date then
-                    release_dates[version] = date .. "T00:00:00Z"
-                end
+        if entry and not entry.no_bindist then
+            table.insert(versions, entry.version)
+            -- Older versions have no known release date, so they're reported without one
+            if entry.release_date then
+                release_dates[entry.version] = entry.release_date .. "T00:00:00Z"
             end
         end
     end
