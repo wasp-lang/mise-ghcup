@@ -4,15 +4,17 @@ local is_windows = RUNTIME.osType == "windows"
 
 --- Each tool gets its own ghcup home. Separating the base dir allows parallel
 --- installs without race conditions.
---- On Windows, we use a short base since GHC has deeply-nested files that might
---- exceed the 260-char MAX_PATH limit. Elsewhere, we keep it inside the plugin
---- dir to stay self-contained.
+--- We keep it inside the plugin dir to stay self-contained. The exception is
+--- Windows without long path support, where we use a short base since GHC has
+--- deeply-nested files that might exceed the 260-char MAX_PATH limit.
 ---
+--- @param cmd cmd
 --- @param ghcup_id string The ghcup id of the tool (e.g. "ghc", "cabal")
 --- @return string
-local function install_base_prefix(ghcup_id)
+local function install_base_prefix(cmd, ghcup_id)
     local file = require("file")
-    if is_windows then
+    local fs = require("fs")
+    if is_windows and not fs.long_paths_enabled(cmd) then
         return "C:\\" .. ghcup_id
     else
         return file.join_path(RUNTIME.pluginDirPath, ghcup_id)
@@ -53,7 +55,7 @@ function M.call(ghcup_id, args, channel, env)
     local cmd = require("cmd")
     local fs = require("fs")
 
-    local base_prefix = install_base_prefix(ghcup_id)
+    local base_prefix = install_base_prefix(cmd, ghcup_id)
     fs.mkdir_p(cmd, base_prefix)
 
     local flag, url_source = url_source_flag(channel)

@@ -17,4 +17,24 @@ function M.mkdir_p(cmd, path)
     end
 end
 
+--- Whether Windows long path support (`LongPathsEnabled`) is turned on, which
+--- lifts the 260-char MAX_PATH limit. Always false on other platforms.
+--- @param cmd cmd
+--- @return boolean
+function M.long_paths_enabled(cmd)
+    if not is_windows then
+        return false
+    end
+
+    local ok, output = pcall(function()
+        return cmd.exec("reg query HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem /v LongPathsEnabled")
+    end)
+    if not ok or output == nil then
+        return false
+    end
+
+    local value = output:match("LongPathsEnabled%s+REG_DWORD%s+0x(%x+)")
+    return value ~= nil and tonumber(value, 16) ~= 0
+end
+
 return M
