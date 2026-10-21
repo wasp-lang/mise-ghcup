@@ -30,7 +30,7 @@ jobs:
 
           - os: ubuntu-latest
             image: alpine
-            install-step: apk add binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
+            install-step: apk add bash binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz
 
           - os: windows-latest
           - os: windows-11-vs2026-arm
@@ -80,3 +80,13 @@ jobs:
       - run: mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ matrix.tool.command }} --version
       - run: |
           mise exec mise-ghcup:${{ matrix.tool.name }}@latest -- ${{ runner.os == 'Windows' && 'where' || 'which' }} ${{ matrix.tool.command }}
+
+      # GHCup's tags become version aliases, e.g. `recommended` resolves to the
+      # version GHCup tags as recommended
+      - name: Check the recommended alias
+        shell: bash
+        run: |
+          expected=$(mise exec -- ghcup list -t ${{ matrix.tool.name }} -r | awk '$3 ~ /(^|,)recommended(,|$)/ && !/no-bindist/ { print $2 }' | tail -n 1)
+          actual=$(mise latest mise-ghcup:${{ matrix.tool.name }}@recommended)
+          echo "expected: $expected, actual: $actual"
+          [ -n "$expected" ] && [ "$actual" = "$expected" ]

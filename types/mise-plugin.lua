@@ -110,6 +110,7 @@ ARCH_TYPE = ""
 
 ---@class BackendListVersionsResult
 ---@field versions (string|BackendListVersionsEntry)[] List of available versions, ascending (mise does not re-sort)
+---@field aliases? table<string, string> Version aliases (e.g. "recommended") mapped to the version they point at
 
 ---@class BackendListVersionsEntry
 ---@field version string Version string
