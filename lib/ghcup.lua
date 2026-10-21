@@ -6,7 +6,7 @@ local is_windows = RUNTIME.osType == "windows"
 --- installs without race conditions.
 --- On Windows, we use a short base since GHC has deeply-nested files that might
 --- exceed the 260-char MAX_PATH limit. Elsewhere, we keep it inside the plugin
---- dir to stay self-contained.
+--- cache dir, so it stays out of the plugin's source checkout.
 ---
 --- @param ghcup_id string The ghcup id of the tool (e.g. "ghc", "cabal")
 --- @return string
@@ -15,7 +15,7 @@ local function install_base_prefix(ghcup_id)
     if is_windows then
         return "C:\\" .. ghcup_id
     else
-        return file.join_path(RUNTIME.pluginDirPath, ghcup_id)
+        return file.join_path(RUNTIME.cacheDirPath, ghcup_id)
     end
 end
 

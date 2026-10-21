@@ -12,6 +12,7 @@
 ---@field envType string? libc environment ("gnu" on glibc Linux, "musl" on musl Linux, nil elsewhere)
 ---@field version string Runtime version
 ---@field pluginDirPath string Path to the plugin directory
+---@field cacheDirPath string Path to the plugin's cache directory
 RUNTIME = {}
 
 --- @deprecated Use RUNTIME.osType instead
