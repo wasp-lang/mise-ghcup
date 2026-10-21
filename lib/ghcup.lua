@@ -101,13 +101,15 @@ end
 
 --- @class GhcupListEntry
 --- @field version string
+--- @field tags string[] GHCup tags, e.g. "recommended" or "base-4.20.1.0"
 --- @field release_date string? As YYYY-MM-DD, when ghcup knows it
 --- @field no_bindist boolean Whether there's no binary for the current platform
 
 --- Parses a line of `ghcup list -r` output.
 --- Each line is `tool version tags notes`, space-separated, where tags and notes
---- are comma-separated lists that may be empty. The notes (release date,
---- `no-bindist`, ...) have no fixed position, so we look at every token.
+--- are comma-separated lists that may be empty. The tags are the field right
+--- after the version. The notes (release date, `no-bindist`, ...) have no fixed
+--- position, so we look at every token.
 --- @param line string
 --- @return GhcupListEntry? entry `nil` if the line has no version
 function M.parse_list_line(line)
@@ -116,8 +118,18 @@ function M.parse_list_line(line)
         return nil
     end
 
-    local entry = { version = version, no_bindist = false }
-    for token in rest:gmatch("[^%s,]+") do
+    local entry = { version = version, tags = {}, no_bindist = false }
+
+    local tags, notes = rest:match("^ (%S*)(.*)$")
+    if tags then
+        for tag in tags:gmatch("[^,]+") do
+            table.insert(entry.tags, tag)
+        end
+    else
+        notes = rest
+    end
+
+    for token in notes:gmatch("[^%s,]+") do
         if token == "no-bindist" then
             entry.no_bindist = true
         elseif token:match("^%d%d%d%d%-%d%d%-%d%d$") then

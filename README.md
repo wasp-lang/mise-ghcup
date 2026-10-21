@@ -81,6 +81,15 @@ Pin a specific version in `mise.toml` instead of `latest`:
 "mise-ghcup:ghc" = "9.10.1"
 ```
 
+Or use one of GHCup's tags, such as `recommended`, `latest-prerelease`, or `base-4.20.1.0`, which resolve to the newest version carrying that tag:
+
+```toml
+[tools]
+"mise-ghcup:ghc" = "recommended"
+```
+
+mise installs and locks the resolved version, and follows the tag when GHCup moves it. This needs mise `2026.10.17` or newer.
+
 ## Choosing a channel
 
 By default, versions come from GHCup's default release channel. Set the `channel` option to use a different one. It accepts anything GHCup's `--url-source` does: a predefined channel name (`prereleases`, `cross`, `vanilla`, `default`), a metadata URL, or a file path.

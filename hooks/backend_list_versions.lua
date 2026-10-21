@@ -18,6 +18,7 @@ function PLUGIN:BackendListVersions(ctx)
 
     local versions = {}
     local release_dates = {}
+    local tags = {}
     for _, line in ipairs(strings.split(output, "\n")) do
         local entry = ghcup.parse_list_line(line)
         -- Skip versions ghcup has no binary distribution of for this platform,
@@ -28,6 +29,7 @@ function PLUGIN:BackendListVersions(ctx)
             if entry.release_date then
                 release_dates[entry.version] = entry.release_date .. "T00:00:00Z"
             end
+            tags[entry.version] = entry.tags
         end
     end
 
@@ -52,5 +54,16 @@ function PLUGIN:BackendListVersions(ctx)
         end
     end
 
-    return { versions = result }
+    -- Report GHCup's tags as aliases, so e.g. `recommended` resolves to the
+    -- version it points at. When several versions share a tag (`base-*` with
+    -- prereleases, or combined channels), the newest one wins.
+    -- mise resolves `latest` itself and never asks for it.
+    local aliases = {}
+    for _, v in ipairs(versions) do
+        for _, tag in ipairs(tags[v]) do
+            aliases[tag] = v
+        end
+    end
+
+    return { versions = result, aliases = aliases }
 end
