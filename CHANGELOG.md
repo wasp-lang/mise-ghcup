@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.0.0](https://github.com/wasp-lang/mise-ghcup/compare/v2.0.0...v3.0.0) (2026-10-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* store GHCup home in the plugin cache dir ([#34](https://github.com/wasp-lang/mise-ghcup/issues/34))
+
+### Features
+
+* report GHCup tags as version aliases ([#35](https://github.com/wasp-lang/mise-ghcup/issues/35)) ([36146a6](https://github.com/wasp-lang/mise-ghcup/commit/36146a60a0bce0145b9fcd41ac5dd4d136b93915))
+* store GHCup home in the plugin cache dir ([#34](https://github.com/wasp-lang/mise-ghcup/issues/34)) ([b8e0656](https://github.com/wasp-lang/mise-ghcup/commit/b8e06563146d3ea9e383dba303444559f37d9ec4))
+
 ## [2.0.0](https://github.com/wasp-lang/mise-ghcup/compare/v1.1.1...v2.0.0) (2026-10-20)
 
 
