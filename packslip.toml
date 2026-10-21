@@ -1,0 +1,10 @@
+# The plugin is a portable Lua payload, not the tools it installs.
+# https://mise.jdx.dev/plugin-publishing.html#packslip
+[[artifact]]
+path = "dist/mise-ghcup.tar.gz"
+format = "tar.gz"
+portable = true
+bin = []
+
+[artifact.extensions.mise]
+plugin = "vfox"
