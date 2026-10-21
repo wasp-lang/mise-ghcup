@@ -37,12 +37,18 @@ min_version = "2026.10.17"
 experimental = true
 ```
 
-Below that, register the plugin, pinned to a release tag so every machine runs the same plugin code:
+Below that, register the plugin, pinned to a [release](https://github.com/wasp-lang/mise-ghcup/releases) so every machine runs the same plugin code. Releases are signed [packslip](https://mise.jdx.dev/plugin-publishing.html#packslip) archives, so mise verifies the plugin before installing it:
 
 <!-- x-release-please-start-version -->
 ```toml title="mise.toml"
 [plugins]
-"vfox-backend:mise-ghcup" = "https://github.com/wasp-lang/mise-ghcup.git#v3.0.0"
+"vfox-backend:mise-ghcup" = "packslip:wasp-lang/mise-ghcup#3.0.0"
+```
+
+Or install it from the command line:
+
+```bash
+mise plugins install vfox-backend:mise-ghcup 'packslip:wasp-lang/mise-ghcup#3.0.0'
 ```
 <!-- x-release-please-end -->
 
@@ -108,11 +114,11 @@ A channel replaces the default one, so the example above only lists prereleases.
 
 ## Upgrading the plugin
 
-Change the tag in `mise.toml`, then update the installed plugin to the same tag. mise doesn't re-read the tag once the plugin is installed, so editing `mise.toml` alone has no effect. For example, to move to the latest release:
+Change the version in `mise.toml`, then update the installed plugin to the same version. mise doesn't re-read the version once the plugin is installed, so editing `mise.toml` alone has no effect. For example, to move to the latest release:
 
 <!-- x-release-please-start-version -->
 ```bash
-mise plugins update mise-ghcup#v3.0.0
+mise plugins update mise-ghcup#3.0.0
 ```
 <!-- x-release-please-end -->
 
